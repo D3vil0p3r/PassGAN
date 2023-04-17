@@ -9,9 +9,10 @@ The model from PassGAN is taken from [_Improved Training of Wasserstein GANs_](h
 
 ## Getting Started
 
+### Arch-based distributions
 ```bash
 # requires CUDA 8 to be pre-installed
-pip install -r requirements.txt
+pacman -S python-matplotlib python-numpy python-tensorflow
 ```
 
 ### Generating password samples
