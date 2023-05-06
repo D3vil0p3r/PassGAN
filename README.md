@@ -25,7 +25,7 @@ If you don't want to wait, jump to [Generating password samples](https://github.
 # download the rockyou training data
 # contains 80% of the full rockyou passwords (with repeats)
 # that are 10 characters or less
-mkdir -p PassGAN/data
+mkdir -p data
 curl -L -o data/train.txt https://github.com/brannondorsey/PassGAN/releases/download/data/rockyou-train.txt
 
 # train for 200000 iterations, saving checkpoints every 5000
