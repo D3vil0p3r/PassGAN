@@ -40,7 +40,7 @@ lib = ctypes.cdll.LoadLibrary(name)
 
 def print_banner():
     #cat banner.txt | gzip | base64
-    encoded_data = "H4sIAAAAAAAAA3VRSQ6AMAi884o5amLCh0zqQ3i8zGBdqpJIcRbACvRoFcCIvEDrJEYxhkhtB7/o2wi9lOOgPGus4q5FmqMyEJREPm7lzSoJ2TbJjsQjc0iMIGCa2HvRNhEIpvls0yTWHGgr12AutTSXV2mtks11hGTGj/m73Pft2Q/1/AkqdlE7dKq0AQAA"
+    encoded_data = "H4sIAAAAAAAAA3VRWw6AMAj73yn6qYkJFzKZB+Hw0uJ8oJLYYSmPMWBYTwMq8yLbCKKKUSy0g/wK31roJzOOkIWPVbFrkG5IBJwSj89a5oYXAaVtkh3AI9AlhpNo6jhqMW0i4YT5LNMlVh9oKlNjDrV0U65gTZfFdbhkjZf5X25ZyXXvuqnnK8jZAcxviKq1AQAA"
     banner = zlib.decompress(base64.b64decode(encoded_data), 16 + zlib.MAX_WBITS).decode('utf-8')
     print(banner)
 
