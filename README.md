@@ -25,11 +25,12 @@ If you don't want to wait, jump to [Generating password samples](https://github.
 # download the rockyou training data
 # contains 80% of the full rockyou passwords (with repeats)
 # that are 10 characters or less
+mkdir -p PassGAN/data
 curl -L -o data/train.txt https://github.com/brannondorsey/PassGAN/releases/download/data/rockyou-train.txt
 
 # train for 200000 iterations, saving checkpoints every 5000
 # uses the default hyperparameters from the paper
-python train.py --output-dir output --training-data data/train.txt
+python train.py --output-dir pretrained --training-data data/train.txt
 ```
 
 You are encouraged to train using your own password leaks and datasets. Some great places to find those include:
@@ -45,7 +46,7 @@ Use the pretrained model to generate 1,000,000 passwords, saving them to `gen_pa
 ```bash
 python sample.py \
 	--input-dir pretrained \
-	--checkpoint pretrained/checkpoints/195000.ckpt \
+	--checkpoint pretrained/checkpoints/checkpoint_5000.ckpt \
 	--output gen_passwords.txt \
 	--batch-size 1024 \
 	--num-samples 1000000
