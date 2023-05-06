@@ -15,22 +15,11 @@ The model from PassGAN is taken from [_Improved Training of Wasserstein GANs_](h
 pacman -S python-matplotlib python-numpy python-tensorflow
 ```
 
-### Generating password samples
-
-Use the pretrained model to generate 1,000,000 passwords, saving them to `gen_passwords.txt`.
-
-```bash
-python sample.py \
-	--input-dir pretrained \
-	--checkpoint pretrained/checkpoints/195000.ckpt \
-	--output gen_passwords.txt \
-	--batch-size 1024 \
-	--num-samples 1000000
-```
-
 ### Training your own models
 
 Training a model on a large dataset (100MB+) can take several hours on a GTX 1080.
+
+If you don't want to wait, jump to [Generating password samples](https://github.com/D3vil0p3r/PassGAN/tree/main#generating-password-samples) section and use the `pretrained` folder in this repository as `--input-dir`.
 
 ```bash
 # download the rockyou training data
@@ -48,6 +37,19 @@ You are encouraged to train using your own password leaks and datasets. Some gre
 - [LinkedIn leak](https://github.com/brannondorsey/PassGAN/releases/download/data/68_linkedin_found_hash_plain.txt.zip) (1.7GB compressed, direct download. Mirror from [Hashes.org](https://hashes.org/leaks.php))
 - [Exploit.in torrent](https://thepiratebay.org/torrent/16016494/exploit.in) (10GB+, 800 million accounts. Infamous!)
 - [Hashes.org](https://hashes.org/leaks.php): Awesome shared password recovery site. Consider donating if you have the resources ;)
+
+### Generating password samples
+
+Use the pretrained model to generate 1,000,000 passwords, saving them to `gen_passwords.txt`.
+
+```bash
+python sample.py \
+	--input-dir pretrained \
+	--checkpoint pretrained/checkpoints/195000.ckpt \
+	--output gen_passwords.txt \
+	--batch-size 1024 \
+	--num-samples 1000000
+```
 
 ## Results
 
