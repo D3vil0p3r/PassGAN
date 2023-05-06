@@ -18,3 +18,4 @@ exec python /usr/share/passgan/passgan.py "\$@"
 EOF
 
 chmod a+x "/usr/bin/passgan"
+echo "PassGAN installed."
