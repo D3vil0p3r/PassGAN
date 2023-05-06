@@ -252,12 +252,28 @@ def train_run(args):
 
 ###################################
 
+def help():
+   # Display Help
+   print("A Deep Learning Approach for Password Guessing.\n")
+
+   print("List of arguments:\n")
+   
+   print("-h, --help              show this help message and exit")
+   print("sample                  use the pretrained model to generate passwords")
+   print("train                   train a model on a large dataset (can take several hours on a GTX 1080)")
+   print("")
+   print("Usage Examples:")
+   print("passgan sample --input-dir pretrained --checkpoint pretrained/checkpoints/checkpoint_5000.ckpt --output gen_passwords.txt --batch-size 1024 --num-samples 1000000")
+   print("passgan train --output-dir pretrained --training-data data/train.txt")
+
 
 def main(args=None):
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("-h", "--help", action='store_true', help="show this help message and exit")
     subparsers = parser.add_subparsers(dest="cmd")
-    subp_sample = subparsers.add_parser("sample", add_help=False)
+    subp_sample = subparsers.add_parser("sample", help='use the pretrained model to generate passwords', add_help=False)
+    subp_train = subparsers.add_parser("train", help='train a model on a large dataset (can take several hours on a GTX 1080)', add_help=False)
 
     subp_sample.add_argument('--input-dir', '-i',
                         required=True,
@@ -297,7 +313,6 @@ def main(args=None):
                         dest='layer_dim',
                         help='The hidden layer dimensionality for the generator. Use the same value that you did for training (default: 128)')
 
-    subp_train = subparsers.add_parser("train", add_help=False)
 
     subp_train.add_argument('--training-data', '-i',
                         default='data/train.txt',
@@ -370,10 +385,9 @@ def main(args=None):
         sample_run(parsed_args)
     elif parsed_args.cmd == "train":
         train_run(parsed_args)
-    else:
-        print("usage:")
-        print("passgan.py sample --input-dir pretrained --checkpoint pretrained/checkpoints/checkpoint_5000.ckpt --output gen_passwords.txt --batch-size 1024 --num-samples 1000000")
-        print("passgan.py train --output-dir pretrained --training-data data/train.txt")
+    elif parsed_args.help or (not(parsed_args.cmd)):
+        help()
+        exit()
 
 if __name__ == "__main__":
     main()
