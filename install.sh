@@ -3,11 +3,11 @@
 install -dm 755 "/usr/bin"
 install -dm 755 "/usr/share/passgan"
 
-install -Dm 644 -t "/usr/share/doc/passgan/" *.md
+install -Dm 644 -t "/usr/share/doc/passgan/" README.md 2>/dev/null
 
-install -Dm 644 LICENSE "/usr/share/licenses/passgan/LICENSE"
+install -Dm 644 LICENSE "/usr/share/licenses/passgan/LICENSE" 2>/dev/null
 
-rm -rf *.md LICENSE
+rm -rf README.md LICENSE
 
 cp -a --no-preserve=ownership * "/usr/share/passgan/"
 
