@@ -29,7 +29,7 @@ curl -L -o data/train.txt https://github.com/brannondorsey/PassGAN/releases/down
 
 # train for 200000 iterations, saving checkpoints every 5000
 # uses the default hyperparameters from the paper
-python train.py --output-dir pretrained --training-data data/train.txt
+python passgan.py train --output-dir pretrained --training-data data/train.txt
 ```
 
 You are encouraged to train using your own password leaks and datasets. Some great places to find those include:
@@ -43,7 +43,7 @@ You are encouraged to train using your own password leaks and datasets. Some gre
 Use the pretrained model to generate 1,000,000 passwords, saving them to `gen_passwords.txt`.
 
 ```bash
-python sample.py \
+python passgan.py sample \
 	--input-dir pretrained \
 	--checkpoint pretrained/checkpoints/checkpoint_5000.ckpt \
 	--output gen_passwords.txt \
