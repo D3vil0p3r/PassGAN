@@ -75,8 +75,8 @@ Use the pretrained model to generate 1,000,000 passwords, saving them to `gen_pa
 
 ```bash
 passgan sample \
-	--input-dir pretrained \
-	--checkpoint pretrained/checkpoints/checkpoint_5000.ckpt \
+	--input-dir /usr/share/passgan/pretrained \
+	--checkpoint /usr/share/passgan/pretrained/checkpoints/checkpoint_5000.ckpt \
 	--output gen_passwords.txt \
 	--batch-size 1024 \
 	--num-samples 1000000
