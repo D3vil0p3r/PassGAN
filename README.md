@@ -7,6 +7,30 @@ The model from PassGAN is taken from [_Improved Training of Wasserstein GANs_](h
 - A command-line interface
 - A pretrained PassGAN model trained on the RockYou dataset
 
+```
+          _______           __________           ___
+    ____            _____                __
+__      ____                  _________    _   __
+       / __ \____ ___________/ ____/   |  / | / /
+   _  / /_/ / __ `/ ___/ ___/ / __/ /| | /  |/ / 
+___  / ____/ /_/ (__  |__  ) /_/ / ___ |/ /|  /  
+    /_/    \__,_/____/____/\____/_/  |_/_/ |_/   
+  __        _______         ____            __
+        ____           __________    _____
+
+A Deep Learning Approach for Password Guessing.
+
+List of arguments:
+
+-h, --help              show this help message and exit
+sample                  use the pretrained model to generate passwords
+train                   train a model on a large dataset (can take several hours on a GTX 1080)
+
+Usage Examples:
+passgan sample --input-dir pretrained --checkpoint pretrained/checkpoints/checkpoint_5000.ckpt --output gen_passwords.txt --batch-size 1024 --num-samples 1000000
+passgan train --output-dir pretrained --training-data data/train.txt
+```
+
 ## Getting Started
 
 ### Arch-based distributions
