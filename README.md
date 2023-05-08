@@ -33,16 +33,26 @@ passgan train --output-dir pretrained --training-data data/train.txt
 
 ## Getting Started
 
+Clone the repository:
+```bash
+git clone https://github.com/D3vil0p3r/PassGAN
+cd PassGAN
+```
+
 ### Arch-based distributions
 ```bash
 # requires CUDA 8 to be pre-installed
 pacman -S python-matplotlib python-numpy python-tensorflow
 ```
 
+### Non Arch-based distributions
+```bash
+# requires CUDA 8 to be pre-installed
+pip install -r requirements.txt
+```
+
 ### Install PassGAN
 ```bash
-git clone https://github.com/D3vil0p3r/PassGAN
-
 sudo install.sh
 ```
 
