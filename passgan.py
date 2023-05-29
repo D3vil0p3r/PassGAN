@@ -111,11 +111,11 @@ def sample_run(args):
                 save(samples)
                 samples = [] # flush
 
-                print('wrote {} samples to {} in {:.2f} seconds. {} total.'.format(1000 * args.batch_size, args.output, time.time() - then, i * args.batch_size))
+                print(f'wrote {1000 * args.batch_size} samples to {args.output} in {time.time() - then:.2f} seconds. {i * args.batch_size} total.')
                 then = time.time()
 
         save(samples)
-        print('finished in {:.2f} seconds'.format(time.time() - start))
+        print(f'finished in {time.time() - start:.2f} seconds')
 
 ###################################
 
@@ -192,7 +192,7 @@ def train_run(args):
     true_char_ngram_lms = [utils.NgramLanguageModel(i+1, lines[10*args.batch_size:], tokenize=False) for i in range(4)]
     validation_char_ngram_lms = [utils.NgramLanguageModel(i+1, lines[:10*args.batch_size], tokenize=False) for i in range(4)]
     for i in range(4):
-        print("validation set JSD for n={}: {}".format(i+1, true_char_ngram_lms[i].js_with(validation_char_ngram_lms[i])))
+        print(f"validation set JSD for n={i+1}: {true_char_ngram_lms[i].js_with(validation_char_ngram_lms[i])}")
     true_char_ngram_lms = [utils.NgramLanguageModel(i+1, lines, tokenize=False) for i in range(4)]
     with tf.Session() as session:
 
@@ -237,16 +237,16 @@ def train_run(args):
 
                 for i in range(4):
                     lm = utils.NgramLanguageModel(i+1, samples, tokenize=False)
-                    lib.plot.plot('js{}'.format(i+1), lm.js_with(true_char_ngram_lms[i]))
+                    lib.plot.plot(f'js{i+1}', lm.js_with(true_char_ngram_lms[i]))
 
-                with open(os.path.join(args.output_dir, 'samples', 'samples_{}.txt').format(iteration), 'w') as f:
+                with open(os.path.join(args.output_dir, 'samples', f'samples_{iteration}.txt'), 'w') as f:
                     for s in samples:
                         s = "".join(s)
                         f.write(s + "\n")
 
             if iteration % args.save_every == 0 and iteration > 0:
                 model_saver = tf.train.Saver()
-                model_saver.save(session, os.path.join(args.output_dir, 'checkpoints', 'checkpoint_{}.ckpt').format(iteration))
+                model_saver.save(session, os.path.join(args.output_dir, 'checkpoints', f'checkpoint_{iteration}.ckpt'))
 
             lib.plot.tick()
 
@@ -371,16 +371,16 @@ def main(args=None):
     if parsed_args.cmd == "sample":
         
         if not os.path.isdir(parsed_args.input_dir):
-            parser.error('"{}" folder doesn\'t exist'.format(parsed_args.input_dir))
+            parser.error(f'"{parsed_args.input_dir}" folder doesn\'t exist')
 
         if not os.path.exists(parsed_args.checkpoint + '.meta'):
-            parser.error('"{}.meta" file doesn\'t exist'.format(parsed_args.checkpoint))
+            parser.error(f'"{parsed_args.checkpoint}.meta" file doesn\'t exist')
 
         if not os.path.exists(os.path.join(parsed_args.input_dir, 'charmap.pickle')):
-            parser.error('charmap.pickle doesn\'t exist in {}, are you sure that directory is a trained model directory'.format(parsed_args.input_dir))
+            parser.error(f'charmap.pickle doesn\'t exist in {parsed_args.input_dir}, are you sure that directory is a trained model directory')
 
         if not os.path.exists(os.path.join(parsed_args.input_dir, 'inv_charmap.pickle')):
-            parser.error('inv_charmap.pickle doesn\'t exist in {}, are you sure that directory is a trained model directory'.format(parsed_args.input_dir))
+            parser.error(f'inv_charmap.pickle doesn\'t exist in {parsed_args.input_dir}, are you sure that directory is a trained model directory')
 
         sample_run(parsed_args)
     elif parsed_args.cmd == "train":
