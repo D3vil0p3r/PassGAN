@@ -5,6 +5,7 @@ import time
 import pickle
 import argparse
 import base64, zlib
+from pathlib import Path
 
 #####
 
@@ -67,10 +68,10 @@ import tflib.plot
 
 def sample_run(args):
 
-    with open(os.path.join(args.input_dir, 'charmap.pickle'), 'rb') as f:
+    with open(Path(args.input_dir / 'charmap.pickle'), 'rb') as f:
         charmap = pickle.load(f)
 
-    with open(os.path.join(args.input_dir, 'inv_charmap.pickle'), 'rb') as f:
+    with open(Path(args.input_dir / 'inv_charmap.pickle'), 'rb') as f:
         inv_charmap = pickle.load(f)
 
     # print('LENGTH',args.batch_size, args.seq_length, args.layer_dim, len(charmap))
@@ -128,20 +129,17 @@ def train_run(args):
         max_length=args.seq_length,
     )
 
-    if not os.path.isdir(args.output_dir):
-        os.makedirs(args.output_dir)
+    Path(args.output_dir).mkdir(exist_ok=True)
 
-    if not os.path.isdir(os.path.join(args.output_dir, 'checkpoints')):
-        os.makedirs(os.path.join(args.output_dir, 'checkpoints'))
+    Path(args.output_dir / 'checkpoints').mkdir(exist_ok=True)
 
-    if not os.path.isdir(os.path.join(args.output_dir, 'samples')):
-        os.makedirs(os.path.join(args.output_dir, 'samples'))
+    Path(args.output_dir / 'samples').mkdir(exist_ok=True)
 
     # pickle to avoid encoding errors with json
-    with open(os.path.join(args.output_dir, 'charmap.pickle'), 'wb') as f:
+    with open(Path(args.output_dir / 'charmap.pickle'), 'wb') as f:
         pickle.dump(charmap, f)
 
-    with open(os.path.join(args.output_dir, 'inv_charmap.pickle'), 'wb') as f:
+    with open(Path(args.output_dir / 'inv_charmap.pickle'), 'wb') as f:
         pickle.dump(inv_charmap, f)
 
     real_inputs_discrete = tf.placeholder(tf.int32, shape=[args.batch_size, args.seq_length])
@@ -239,14 +237,14 @@ def train_run(args):
                     lm = utils.NgramLanguageModel(i+1, samples, tokenize=False)
                     lib.plot.plot(f'js{i+1}', lm.js_with(true_char_ngram_lms[i]))
 
-                with open(os.path.join(args.output_dir, 'samples', f'samples_{iteration}.txt'), 'w') as f:
+                with open(Path(args.output_dir / 'samples' / f'samples_{iteration}.txt'), 'w') as f:
                     for s in samples:
                         s = "".join(s)
                         f.write(s + "\n")
 
             if iteration % args.save_every == 0 and iteration > 0:
                 model_saver = tf.train.Saver()
-                model_saver.save(session, os.path.join(args.output_dir, 'checkpoints', f'checkpoint_{iteration}.ckpt'))
+                model_saver.save(session, Path(args.output_dir / 'checkpoints' / f'checkpoint_{iteration}.ckpt'))
 
             lib.plot.tick()
 
@@ -370,17 +368,17 @@ def main(args=None):
 
     if parsed_args.cmd == "sample":
         
-        if not os.path.isdir(parsed_args.input_dir):
+        if not Path(parsed_args.input_dir).is_dir():
             parser.error(f'"{parsed_args.input_dir}" folder doesn\'t exist')
 
-        if not os.path.exists(parsed_args.checkpoint + '.meta'):
+        if not Path(f'{parsed_args.checkpoint}.meta').is_file():
             parser.error(f'"{parsed_args.checkpoint}.meta" file doesn\'t exist')
 
-        if not os.path.exists(os.path.join(parsed_args.input_dir, 'charmap.pickle')):
-            parser.error(f'charmap.pickle doesn\'t exist in {parsed_args.input_dir}, are you sure that directory is a trained model directory')
+        if not Path(parsed_args.input_dir / 'charmap.pickle').is_file():
+            parser.error(f'charmap.pickle doesn\'t exist in {parsed_args.input_dir}, are you sure that directory is a trained model directory?')
 
-        if not os.path.exists(os.path.join(parsed_args.input_dir, 'inv_charmap.pickle')):
-            parser.error(f'inv_charmap.pickle doesn\'t exist in {parsed_args.input_dir}, are you sure that directory is a trained model directory')
+        if not Path(parsed_args.input_dir / 'inv_charmap.pickle').is_file():
+            parser.error(f'inv_charmap.pickle doesn\'t exist in {parsed_args.input_dir}, are you sure that directory is a trained model directory?')
 
         sample_run(parsed_args)
     elif parsed_args.cmd == "train":
